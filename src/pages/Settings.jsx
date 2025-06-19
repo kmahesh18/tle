@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import { motion } from 'framer-motion'
-import { Save, Clock, Mail, Database, Download, Upload } from 'lucide-react'
+import { Save, Clock, Mail, Database, Download, Upload, AlertTriangle, X } from 'lucide-react'
 import { toast } from 'react-hot-toast'
 import { CSVDownload } from 'react-csv'
 import { useSettingsStore } from '../store/settingsStore'
@@ -16,9 +16,10 @@ const Settings = () => {
     updateEmailSettings
   } = useSettingsStore()
 
-  const { students } = useStudentStore()
+  const { students, clearAllStudents } = useStudentStore()
   const [activeTab, setActiveTab] = useState('sync')
   const [downloadCsv, setDownloadCsv] = useState(false)
+  const [showConfirmClear, setShowConfirmClear] = useState(false)
 
   const tabs = [
     { id: 'sync', label: 'Sync Settings', icon: Clock },
@@ -44,6 +45,20 @@ const Settings = () => {
     setDownloadCsv(true)
     setTimeout(() => setDownloadCsv(false), 1000)
     toast.success('Data exported successfully!')
+  }
+
+  const handleClearAllData = () => {
+    setShowConfirmClear(true)
+  }
+
+  const confirmClearData = () => {
+    clearAllStudents()
+    setShowConfirmClear(false)
+    toast.success('All data has been cleared!')
+  }
+
+  const cancelClearData = () => {
+    setShowConfirmClear(false)
   }
 
   return (
@@ -290,9 +305,37 @@ const Settings = () => {
                     <p className="text-sm text-red-600 dark:text-red-400 mb-4">
                       This action cannot be undone. All student data will be permanently deleted.
                     </p>
-                    <button className="bg-red-600 hover:bg-red-700 text-white px-4 py-2 rounded-xl text-sm font-medium transition-colors">
-                      Clear All Data
-                    </button>
+                    {!showConfirmClear ? (
+                      <button 
+                        onClick={handleClearAllData}
+                        className="bg-red-600 hover:bg-red-700 text-white px-4 py-2 rounded-xl text-sm font-medium transition-colors"
+                      >
+                        Clear All Data
+                      </button>
+                    ) : (
+                      <div className="flex flex-col sm:flex-row gap-3 mt-3">
+                        <div className="p-3 bg-red-100 dark:bg-red-900/40 rounded-lg flex items-center">
+                          <AlertTriangle className="w-5 h-5 text-red-600 dark:text-red-400 mr-2 flex-shrink-0" />
+                          <p className="text-sm text-red-700 dark:text-red-300">
+                            Are you sure? This will delete all students and their data.
+                          </p>
+                        </div>
+                        <div className="flex gap-2 sm:ml-auto">
+                          <button
+                            onClick={cancelClearData}
+                            className="px-4 py-2 rounded-lg border border-gray-300 dark:border-gray-700 text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800 font-medium flex-1 sm:flex-initial"
+                          >
+                            Cancel
+                          </button>
+                          <button
+                            onClick={confirmClearData}
+                            className="px-4 py-2 rounded-lg bg-red-600 text-white hover:bg-red-700 font-medium flex-1 sm:flex-initial"
+                          >
+                            Yes, Delete All
+                          </button>
+                        </div>
+                      </div>
+                    )}
                   </div>
                 </div>
               </div>

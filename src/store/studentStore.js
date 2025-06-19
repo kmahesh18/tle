@@ -53,6 +53,14 @@ export const useStudentStore = create(
       getStudentById: (id) => {
         return get().students.find(student => student.id === id)
       },
+
+      clearAllStudents: () => {
+        set({
+          students: [],
+          selectedStudent: null,
+          lastSyncTime: null
+        })
+      },
     }),
     {
       name: 'student-storage',
