@@ -6,6 +6,7 @@ import reactLogo from './assets/react.svg'
 import viteLogo from '/vite.svg'
 import './App.css'
 import Navbar from './components/Navbar'
+import Footer from './components/Footer'
 import Dashboard from './pages/Dashboard'
 import StudentProfile from './pages/StudentProfile'
 import Settings from './pages/Settings'
@@ -28,11 +29,11 @@ function App() {
 
   return (
     <Router>
-      <div className="min-h-screen w-screen bg-gradient-to-br from-slate-50 to-blue-50 dark:from-gray-900 dark:to-slate-900 transition-colors duration-300 overflow-x-hidden">
+      <div className="min-h-screen w-screen bg-gradient-to-br from-slate-50 to-blue-50 dark:from-gray-900 dark:to-slate-900 transition-colors duration-300 overflow-x-hidden flex flex-col">
         <Navbar />
         
         <motion.main 
-          className="w-full px-2 sm:px-4 lg:px-6 py-4 sm:py-6 lg:py-8"
+          className="flex-grow w-full px-2 sm:px-4 lg:px-6 py-4 sm:py-6 lg:py-8"
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5 }}
@@ -43,6 +44,8 @@ function App() {
             <Route path="/settings" element={<Settings />} />
           </Routes>
         </motion.main>
+
+        <Footer />
 
         <Toaster
           position="top-right"
