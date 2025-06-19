@@ -1,4 +1,4 @@
-import { GitHub, Linkedin, Twitter, Mail, Phone } from 'lucide-react'
+import { Code, Linkedin, Twitter, Mail, Phone } from 'lucide-react'
 
 const Footer = () => {
   return (
@@ -23,7 +23,7 @@ const Footer = () => {
               aria-label="GitHub"
               title="GitHub"
             >
-              <GitHub className="w-4 h-4" />
+              <Code className="w-4 h-4" />
             </a>
             <a 
               href="https://www.linkedin.com/in/mahesh-kumar-0a2b47290/" 
